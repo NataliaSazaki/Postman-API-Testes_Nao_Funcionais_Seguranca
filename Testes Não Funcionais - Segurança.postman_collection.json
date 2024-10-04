@@ -1,0 +1,1402 @@
+{
+	"info": {
+		"_postman_id": "97d083b4-05a0-497e-9ef5-cac4ec0f3450",
+		"name": "Testes Não Funcionais - Segurança",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12389497"
+	},
+	"item": [
+		{
+			"name": "Fluxo de Endpoints Sem Autorização ADMIN",
+			"item": [
+				{
+					"name": "Cadastrar usuário não admin com sucesso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Cadastrar novo usuário não administrador com sucesso\r",
+									"Dado que envie todas as informações válidas\r",
+									"Quando enviar a requisição POST para a rota de adição de usuário\r",
+									"Entao a API deve retornar um código de status 201 (Created) e confirmar que o novo usuário foi cadastrado com sucesso.\r",
+									"*/\r",
+									"\r",
+									"const resposta = pm.response.json();\r",
+									"pm.globals.set (\"_idnonadmin\", resposta.authorization);\r",
+									"\r",
+									"pm.test(\"Status code é 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validação da estrutura de resposta - Sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Usuário Nao Admin 6\",\r\n  \"email\": \"testenonadmin6@pucminas.br\",\r\n  \"password\": \"pucminas\",\r\n  \"administrador\": \"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar usuário não admin com sucesso",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\": \"Usuário Nao Admin 6\",\r\n  \"email\": \"testenonadmin6@pucminas.br\",\r\n  \"password\": \"pucminas\",\r\n  \"administrador\": \"false\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/usuarios",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "82"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 Sep 2024 22:24:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Cadastro realizado com sucesso\",\n    \"_id\": \"pQyS6dEWJrpHiWsB\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Realizar login não Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resposta = pm.response.json();\r",
+									"pm.globals.set (\"tokennaoadmin\", resposta.authorization);\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Login realizado com sucesso\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"usernon@pucminas.br\",\n  \"password\": \"pucminas\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login?_id=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "A duração do token retornado em authorization é de 600 segundos (10 minutos). Caso esteja expirado irá receber status code 401 (Unauthorized).\n"
+					},
+					"response": [
+						{
+							"name": "Realizar login não Admin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"usernon@pucminas.br\",\n  \"password\": \"pucminas\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/login?_id=",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"login"
+									],
+									"query": [
+										{
+											"key": "_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "277"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 Sep 2024 22:23:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login realizado com sucesso\",\n    \"authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJub25AcHVjbWluYXMuYnIiLCJwYXNzd29yZCI6InB1Y21pbmFzIiwiaWF0IjoxNzI3NjQ4NjA2LCJleHAiOjE3Mjc2NDkyMDZ9.l68GQPjYd649huNx_m4wb2OF9nPBo9Rzw7qRRVTSHVY\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar Produto (rota exclusiva administradores)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Cadastrar produto sem usuário administrador\r",
+									"Dado que envie todas as informações válidas\r",
+									"Quando enviar a requisição POST para a rota de adição de produto\r",
+									"Entao a API deve retornar um código de status 403 (Unauthorized) e uma mensagem indicando que a rota é exclusiva para administradores\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de erro\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Rota exclusiva para administradores\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{tokennaoadmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Mouse Coolermaster\",\n    \"preco\": \"123\",\n    \"descricao\": \"mouse wireless\",\n    \"quantidade\": \"30\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produtos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produtos"
+							]
+						},
+						"description": "Não é permitido cadastrar usuário com email já utilizado.\nCaso não seja encontrado usuário com o ID informado é realizado novo cadastro ao invés de alteração.\n"
+					},
+					"response": [
+						{
+							"name": "Cadastrar Produto (rota exclusiva administradores)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{tokennaoadmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Mouse Coolermaster\",\n    \"preco\": \"123\",\n    \"descricao\": \"mouse wireless\",\n    \"quantidade\": \"30\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/produtos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"produtos"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 Sep 2024 22:23:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Rota exclusiva para administradores\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar produto (rota exclusiva para administradores)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Excluir produto cadastrado com usuário não admin\r",
+									"Dado que envie todas as informações válidas\r",
+									"Quando enviar a requisição PUT para a rota de excclusão de produto\r",
+									"Entao a API deve retornar um código de status 403 e uma mensagem de Rota exclusiva para administradores\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Rota exclusiva para administradores\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{tokennaoadmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produtos/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produtos",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "K6leHdftCeOJj8BJ"
+								}
+							]
+						},
+						"description": "Não é permitido cadastrar produto com nome já utilizado"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fluxo de Endpoints sem Token",
+			"item": [
+				{
+					"name": "Produtos",
+					"item": [
+						{
+							"name": "Cadastrar produto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/* \r",
+											"Cenario: Cadastrar produto com token ausente, inválido ou expirado\r",
+											"Dado que envie todas as informações válidas, exceto o campo token\r",
+											"Quando enviar a requisição POST para a rota de adição de produto\r",
+											"Entao a API deve retornar um código de status 401 (Unauthorized) e uma mensagem indicando que já existe produto com esse nome\r",
+											"*/\r",
+											"\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validar mensagem de erro\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/produtos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"produtos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Cadastrar produto",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:3000/produtos",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"produtos"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "x-dns-prefetch-control",
+											"value": "off"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "strict-transport-security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "x-download-options",
+											"value": "noopen"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "103"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 29 Sep 2024 22:17:02 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Editar produto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/* \r",
+											"Cenario: Validar falha na edição de produto com campo nome em branco\r",
+											"Dado que o ID  existe na base de dados e o campo nome em branco\r",
+											"Quando enviar a requisição GET para a rota de edição por ID\r",
+											"Entao a API deve retornar um código de status 400 (Bad Request) e uma mensagem indicando que o campo não pode ficar em branco\r",
+											"*/\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validar mensagem de erro\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"iphone 14\",\n  \"preco\": 4700,\n  \"descricao\": \"Celular\",\n  \"quantidade\": \"2\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/produtos/:_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"produtos",
+										":_id"
+									],
+									"variable": [
+										{
+											"key": "_id",
+											"value": "K6leHdftCeOJj8BJ",
+											"description": "(Required) ID do usuário"
+										}
+									]
+								},
+								"description": "Não é permitido cadastrar usuário com email já utilizado.\nCaso não seja encontrado usuário com o ID informado é realizado novo cadastro ao invés de alteração.\n"
+							},
+							"response": [
+								{
+									"name": "Editar produto",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"\",\n  \"preco\": 4700,\n  \"descricao\": \"Celular\",\n  \"quantidade\": \"2\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/produtos/:_id",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"produtos",
+												":_id"
+											],
+											"variable": [
+												{
+													"key": "_id",
+													"value": "K6leHdftCeOJj8BJ",
+													"description": "(Required) ID do usuário"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "x-dns-prefetch-control",
+											"value": "off"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "strict-transport-security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "x-download-options",
+											"value": "noopen"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "103"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 29 Sep 2024 22:19:04 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Deletar produto",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/* \r",
+											"Cenario: Excluir produto cadastrado com tokken inválido\r",
+											"Dado que envie todas as informações válidas\r",
+											"Quando enviar a requisição PUT para a rota de excclusão de produto\r",
+											"Entao a API deve retornar um código de status 401 (Bad Request) e uma mensagem de Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\r",
+											"*/\r",
+											"\r",
+											"pm.test(\"Status code é 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/produtos/:_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"produtos",
+										":_id"
+									],
+									"variable": [
+										{
+											"key": "_id",
+											"value": "K6leHdftCeOJj8BJ"
+										}
+									]
+								},
+								"description": "Não é permitido cadastrar produto com nome já utilizado"
+							},
+							"response": [
+								{
+									"name": "Deletar produto",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:3000/produtos/:_id",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"produtos",
+												":_id"
+											],
+											"variable": [
+												{
+													"key": "_id",
+													"value": "K6leHdftCeOJj8BJ"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "x-dns-prefetch-control",
+											"value": "off"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "strict-transport-security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "x-download-options",
+											"value": "noopen"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "103"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 29 Sep 2024 22:18:53 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Carrinhos",
+					"item": [
+						{
+							"name": "Cadastrar carrinho",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/* \r",
+											"Cenario: Cadastrar carrinho com token ausente, inválido ou expirado\r",
+											"Dado que envie todas as informações válidas, exceto o campo token\r",
+											"Quando enviar a requisição POST para a rota de adição de carrinho\r",
+											"Entao a API deve retornar um código de status 401 (Unauthorized) e uma mensagem indicando o possível erro\r",
+											"*/\r",
+											"\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validar mensagem de erro\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/carrinhos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"carrinhos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Cadastrar carrinho",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "<API Key>",
+												"type": "text",
+												"disabled": true
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:3000/carrinhos",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"carrinhos"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "x-dns-prefetch-control",
+											"value": "off"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "strict-transport-security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "x-download-options",
+											"value": "noopen"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "103"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 29 Sep 2024 22:19:28 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Concluir compra",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/* \r",
+											"Cenario: Cadastrar carrinho sem quantidade suficiente do produto\r",
+											"Dado que envie todas as informações válidas, exceto o campo quantidade\r",
+											"Quando enviar a requisição POST para a rota de adição de carrinho\r",
+											"Entao a API deve retornar um código de status 401 (Unauthorized) e uma mensagem indicando que Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\"\r",
+											"*/\r",
+											"\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validar mensagem de erro\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "123456789",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/carrinhos/concluir-compra",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"carrinhos",
+										"concluir-compra"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Concluir compra",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "123456789",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/carrinhos/concluir-compra",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"carrinhos",
+												"concluir-compra"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "x-dns-prefetch-control",
+											"value": "off"
+										},
+										{
+											"key": "x-frame-options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "strict-transport-security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "x-download-options",
+											"value": "noopen"
+										},
+										{
+											"key": "x-content-type-options",
+											"value": "nosniff"
+										},
+										{
+											"key": "x-xss-protection",
+											"value": "1; mode=block"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "103"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 29 Sep 2024 22:20:49 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "idUsuario",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		}
+	]
+}
